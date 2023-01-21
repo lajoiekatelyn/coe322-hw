@@ -21,7 +21,6 @@ with open('/usr/share/dict/words', 'r') as f:
                 longest_words.pop(-1)
                 break
 
-print('\n\n\nlongest words start here\n')
 for word in longest_words:
     print(word.strip('\n'))
 
