@@ -75,6 +75,9 @@ The output should resemble this:
 }
 ```
 
+SAY SOMETHING ABOUT THE GENERATION AND WHAT IT MEANS HERE!!!
+
+
 Then it is safe to run `calculate_trip.py`:
 
 ```
@@ -92,3 +95,5 @@ leg = 5, time to travel = 11.23, time to sample = 2
 ===============================
 number of legs = 5, total time elapsed = 66.61808027896588
 ```
+
+INTERPRET RESULTS HERE
