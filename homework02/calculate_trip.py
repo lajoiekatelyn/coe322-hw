@@ -44,7 +44,7 @@ def main():
         total_time += legs[i]['time to travel'] + legs[i]['time to sample']
 
     print('===============================')
-    print(f'number of legs = {len(legs)}, total time elapsed = {total_time}')
+    print(f'number of legs = {len(legs)}, total time elapsed = {total_time} hr')
 
 if __name__ == '__main__':
     main()
