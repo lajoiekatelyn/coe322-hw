@@ -43,39 +43,38 @@ The output should resemble this:
   "sites": [
     {
       "site_id": 1,
-      "latitude": 17.251018002564624,
-      "longitude": 83.3970279780064,
+      "latitude": 16.825935832749565,
+      "longitude": 82.92678192126547,
       "composition": "iron"
     },
     {
       "site_id": 2,
-      "latitude": 17.746000689892814,
-      "longitude": 83.6341686094379,
-      "composition": "iron"
+      "latitude": 16.05428631063123,
+      "longitude": 82.18511704366577,
+      "composition": "stony-iron"
     },
     {
       "site_id": 3,
-      "latitude": 16.030853322327715,
-      "longitude": 83.25245580655684,
+      "latitude": 17.60253381273197,
+      "longitude": 82.19588106677921,
       "composition": "iron"
     },
     {
       "site_id": 4,
-      "latitude": 17.620230214040348,
-      "longitude": 83.69441198661723,
+      "latitude": 17.629145780920066,
+      "longitude": 83.78098708456514,
       "composition": "iron"
     },
     {
       "site_id": 5,
-      "latitude": 17.804169521267553,
-      "longitude": 82.61539439035306,
-      "composition": "iron"
+      "latitude": 16.82247072232727,
+      "longitude": 83.24141531744367,
+      "composition": "stony-iron"
     }
   ]
-}
 ```
 
-SAY SOMETHING ABOUT THE GENERATION AND WHAT IT MEANS HERE!!!
+As you can se from the code block above, the `generate_sites.py` script generates a number of sites with a site\_id, latitude between 16.0 and 18.0 degrees, longitude between 82.0 and 84.0 degrees, and a composition of either `stony`, `iron`, or `stony-iron`.
 
 
 Then it is safe to run `calculate_trip.py`:
@@ -87,13 +86,15 @@ python3 calculate_trip.py
 Which should output something like the following:
 
 ```
-leg = 1, time to travel = 10.84, time to sample = 2
-leg = 2, time to travel = 13.87, time to sample = 2
-leg = 3, time to travel = 7.12, time to sample = 2
-leg = 4, time to travel = 13.56, time to sample = 2
-leg = 5, time to travel = 11.23, time to sample = 2
+leg = 1, time to travel = 7.18 hr, time to sample = 2 hr
+leg = 2, time to travel = 1.1 hr, time to sample = 3 hr
+leg = 3, time to travel = 9.54 hr, time to sample = 2 hr
+leg = 4, time to travel = 13.95 hr, time to sample = 2 hr
+leg = 5, time to travel = 8.56 hr, time to sample = 3 hr
 ===============================
-number of legs = 5, total time elapsed = 66.61808027896588
+number of legs = 5, total time elapsed = 52.33526330282136 hr
 ```
+Each trip starts at a latitude of 16.0 degrees latitude and 82.0 degrees longitude. The robot then proceeds to the next leg of the trip, leg 1, which takes it 7.18 hours at a speed of 10 km / hr. Once it reaches its destination, it takes 2 hours to sample the landing composition. Each landing site composition dictates a different sample time. `stony`, `iron`, and `stony-iron` all have sampling times of 1, 2, and 3 hours, respectively.
 
-INTERPRET RESULTS HERE
+Just by looking at `landing_sites.py`, one can see that the robot's path could be optomized if it were to travel to sites closer in latitude and longitude than the random order than `generate_sites.py` produces.An optomization of the robot's route would reduce in a shorter time elapsed and be more time and power effective.
+
