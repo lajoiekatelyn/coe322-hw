@@ -40,7 +40,7 @@ def main():
 
     total_time = 0
     for i in range(len(legs)):
-        print(f'leg = {legs[i]["leg"]}, time to travel = {round(legs[i]["time to travel"], 2)}, time to sample = {legs[i]["time to sample"]}')
+        print(f'leg = {legs[i]["leg"]}, time to travel = {round(legs[i]["time to travel"], 2)} hr, time to sample = {legs[i]["time to sample"]} hr')
         total_time += legs[i]['time to travel'] + legs[i]['time to sample']
 
     print('===============================')
