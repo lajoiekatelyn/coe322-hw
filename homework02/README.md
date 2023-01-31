@@ -96,5 +96,5 @@ number of legs = 5, total time elapsed = 52.33526330282136 hr
 ```
 Each trip starts at a latitude of 16.0 degrees latitude and 82.0 degrees longitude. The robot then proceeds to the next leg of the trip, leg 1, which takes it 7.18 hours at a speed of 10 km / hr. Once it reaches its destination, it takes 2 hours to sample the landing composition. Each landing site composition dictates a different sample time. `stony`, `iron`, and `stony-iron` all have sampling times of 1, 2, and 3 hours, respectively.
 
-Just by looking at `landing_sites.py`, one can see that the robot's path could be optomized if it were to travel to sites closer in latitude and longitude than the random order than `generate_sites.py` produces.An optomization of the robot's route would reduce in a shorter time elapsed and be more time and power effective.
+Just by looking at `landing_sites.py`, one can see that the robot's path could be optomized if it were to travel to sites closer in latitude and longitude than the random order than `generate_sites.py` produces. An optomization of the robot's route would reduce in a shorter time elapsed and be more time and power effective.
 
