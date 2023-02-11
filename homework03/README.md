@@ -24,7 +24,7 @@ WARNING: Turbidity is above threshold for safe use!
 Minimum time required to return below a safe threshold = 7.08 hours
 ```
 
-### test_analyze_ater.py
+### test_analyze_water.py
 This script tests the functions in `analyze_water.py` using the Python `pytest` library. If `pytest` is not installed on your machine, install it as follows:
 ```
 pip3 install --user pytest
