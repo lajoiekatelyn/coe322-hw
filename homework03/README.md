@@ -16,7 +16,7 @@ $$T=a_0\cdot I90$$
 Then, should the average turbidity exceed the turbidity threshold of 1.0 NTU, it will calculate the time required for the turbidity to fall below the threshold according to the equation
 $$T_s=T*(1-d)^b$$
 where $T_s$ is the turbidity threshold, $d$ is the decay factor (0.2%, in this case) and $b$ is the required time for the turbidity to fall to the threshold. Solving for $b$ and simplifying the logarithms results in
-$$\frac{\ln(\frac{T_s}{T})}{\ln(1-d)}$$
+$$b=\frac{\ln(T_s\div T)}{\ln(1-d)}$$
 The script outputs as so:
 ```
 Average turbidity based on most recent five measurements = 1.15 NTU
