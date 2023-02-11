@@ -12,11 +12,11 @@ Otherwise, the program accesses the data on it's own, given an internet connecti
 
 ### analyze_water.py
 This script averages the turbidity of the last five data samples from the water data in `turbidity_data.json` using the values from the `calibration_constant`($a_0$) and `detector_current` ($I90$) keys of the dictionaries in the data, calculated as shown
-$$T=a_0\cdotI90$$
+$$T=a_0\cdot I90$$
 Then, should the average turbidity exceed the turbidity threshold of 1.0 NTU, it will calculate the time required for the turbidity to fall below the threshold according to the equation
 $$T_s=T*(1-d)^b$$
 where $T_s$ is the turbidity threshold, $d$ is the decay factor (0.2%, in this case) and $b$ is the required time for the turbidity to fall to the threshold. Solving for $b$ and simplifying the logarithms results in
-$$\frac{\ln(\frac{T_s}{T})}{\ln(1-d)}
+$$\frac{\ln(\frac{T_s}{T})}{\ln(1-d)}$$
 The script outputs as so:
 ```
 Average turbidity based on most recent five measurements = 1.15 NTU
