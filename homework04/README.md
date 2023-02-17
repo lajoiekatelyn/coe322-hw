@@ -16,7 +16,9 @@ Data required for this app is the [ISS Trajectory Data](https://spotthestation.n
 ```
 pip3 install --user requests
 ```
+The data can also be accessed in text format (`.txt`). Both file formats contain headers, comments, metadata, and data. The important information for this app is the data, which is in the form of a state vector consisting of position (km) and velocity (km/s).
 
 ### iss_tracker.py
+This script contains the application and its queries. It pulls the ISS data from the internet and allows the user to query the entire data set, a list of epochs, position at a specific epoch, and instantaneous speed at a specific epoch.
 
 ## Usage
