@@ -6,14 +6,14 @@ from typing import List
 
 app = Flask(__name__)
 
-def iss_data():
+def iss_data() -> dict:
     """
     Pulls trajectory data (position, velocity) from the ISS from NASA.
  
     Arguments:
         None
     Returns:
-        iss_data (JSON???): a dictionary of trajectory data for the ISS in km and km/s.
+        iss_data (dict): a dictionary of trajectory data for the ISS in km and km/s.
     """
     r = requests.get('https://nasa-public-data.s3.amazonaws.com/iss-coords/current/ISS_OEM/ISS.OEM_J2K_EPH.xml')
     return xmltodict.parse(r.text)
