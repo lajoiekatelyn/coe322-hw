@@ -32,7 +32,7 @@ def data_set() -> List[dict]:
     return data['ndm']['oem']['body']['segment']['data']['stateVector'] 
 
 @app.route('/epochs', methods=['GET'])
-def list_of_all_epochs() -> list:
+def list_of_all_epochs() -> dict:
     """
     This function lists all of the epochs provided in the data pulled from NASA.
 
