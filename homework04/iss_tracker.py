@@ -39,12 +39,12 @@ def list_of_all_epochs() -> list:
     Arguments:
         None
     Returns:
-        epochs (list): list of all epochs in the data set, J2000 format.
+        epochs (dict): dict of all epochs in the data set and their indicies, epochs in J2000 format.
     """
     data = data_set()
-    epochs = []
-    for d in data:
-        epochs.append(d['EPOCH'])
+    epochs = {}
+    for i in range(len(data)):
+        epochs[data[i]['EPOCH']] = i
     return epochs
 
 @app.route('/epochs/<int:epoch>', methods=['GET'])
