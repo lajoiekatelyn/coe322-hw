@@ -23,7 +23,7 @@ This script contains the application and its queries. It pulls the ISS data from
 
 To calculate instantaenous speed, `iss_tracker.py` uses the following equation:
 ```math
-\sqrt{\dot{x}^2+\dot{y}^2+\dot{z}^2}
+speed = \sqrt{\dot{x}^2+\dot{y}^2+\dot{z}^2}
 ```
 
 ## Usage
