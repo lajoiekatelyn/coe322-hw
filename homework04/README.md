@@ -21,6 +21,11 @@ The data can also be accessed in text format (`.txt`). Both file formats contain
 ### iss_tracker.py
 This script contains the application and its queries. It pulls the ISS data from the internet and allows the user to query the entire data set, a list of epochs, position at a specific epoch, and instantaneous speed at a specific epoch.
 
+To calculate instantaenous speed, `iss_tracker.py` uses the following equation:
+```math
+\sqrt{\dot{x}^2+\dot{y}^2+\dot{z}^2}
+```
+
 ## Usage
 To launch the app, please navigate to the root of the homework04 folder. Then, enter the following into the terminal:
 ```
