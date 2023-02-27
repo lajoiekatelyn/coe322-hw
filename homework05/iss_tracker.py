@@ -6,6 +6,8 @@ from typing import List
 
 app = Flask(__name__)
 
+data = None
+
 def iss_data() -> dict:
     """
     Pulls trajectory data (position, velocity) from the ISS from NASA.
@@ -28,11 +30,16 @@ def data_set() -> List[dict]:
     Returns:
         iss_data (List[dict]): a list of dictionaries containing trajectory data for the ISS in km and km/s.
     """
-    data = iss_data()
-    return data['ndm']['oem']['body']['segment']['data']['stateVector'] 
+    global data
+    temp = iss_data()
+    data = temp['ndm']['oem']['body']['segment']['data']['stateVector']
+    return iss_data() 
 
 @app.route('/epochs', methods=['GET'])
 def list_of_all_epochs() -> dict:
+    offset = int(request.args.get('offset', 0))
+    limit = int(request.args.get('limit', len(data)))
+
     """
     This function lists all of the epochs provided in the data pulled from NASA.
 
@@ -41,10 +48,9 @@ def list_of_all_epochs() -> dict:
     Returns:
         epochs (dict): dict of all epochs in the data set and their indicies, epochs in J2000 format.
     """
-    data = data_set()
     epochs = {}
-    for i in range(len(data)):
-        epochs[data[i]['EPOCH']] = i
+    for i in range(limit):
+        epochs[data[i+offset]['EPOCH']] = i+offset
     return epochs
 
 @app.route('/epochs/<int:epoch>', methods=['GET'])
@@ -57,7 +63,6 @@ def state_vector(epoch:int) -> dict:
     Returns:
         state vector (dict): x, y, and z position vector of the ISS in km.
     """
-    data = data_set()
     epoch_data = data[epoch]
     d = {}
     d['x'] = epoch_data['X']['#text']
@@ -75,7 +80,6 @@ def inst_speed(epoch:int) -> dict:
     Returns:
         state vector (dict): speed of the ISS in km/s.
     """
-    data = data_set()
     epoch_data = data[epoch]
     d = {}
     xdot = float(epoch_data['X_DOT']['#text'])
@@ -84,6 +88,31 @@ def inst_speed(epoch:int) -> dict:
     d['speed'] = math.sqrt(xdot*xdot + ydot*ydot + zdot*zdot)
     return d
 
+@app.route('/delete-data', methods=['DELETE'])
+def delete_data():
+    global data
+    data = None
+    return 'Data deleted.\n\n'
+
+@app.route('/post-data', methods=['POST'])
+def post_data():
+    global data
+    temp = iss_data()
+    data = temp['ndm']['oem']['body']['segment']['data']['stateVector']
+    return 'Data reloaded.\n\n'
+
+@app.route('/help', methods=['GET'])
+def help() -> str:
+    base = '/   Returns the entire data set \n\n'
+    epochs = '/epochs  Returns list of all Epochs in the data set\n\n'
+    epochs_spec = '/epochs?limit=int&offset=int Returns modified list of Epochs given query parameters\n\n'
+    epoch = '/epochs/<int:epoch>    Returns state vectors for a specific Epoch from the data set\n\n'
+    speed = '/epochs/<int:epoch>/speed  Returns instantaneous speed for a specific Epoch in the data set\n\n'
+    h = '/help  Returns help text that describes each route\n\n'
+    delete_data = '/delete-data Deletes all data from the dicitonary object\n\n'
+    post = '/post-data  Reloads the dictionary object with data from the web\n\n'
+    
+    return base + epochs + epochs_spec + epoch + speed + h + delete_data + post
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
