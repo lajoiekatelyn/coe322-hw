@@ -3,6 +3,7 @@ import requests
 import xmltodict
 import math
 from typing import List
+import yaml
 
 app = Flask(__name__)
 
@@ -116,13 +117,27 @@ def inst_speed(epoch:int) -> dict:
     return d
 
 @app.route('/delete-data', methods=['DELETE'])
-def delete_data():
+def delete_data() -> str:
+    """
+    Arguments:
+        None
+    Returns:
+        deletion_success (str): deletion success message
+    """
+
     global data
     data = None
     return 'Data deleted.\n'
 
 @app.route('/post-data', methods=['POST'])
-def post_data():
+def post_data() -> str:
+    """
+    Arguments:
+        None
+    Returns:
+        post_success (str): post success message
+    """
+
     global data
     temp = iss_data()
     data = temp['ndm']['oem']['body']['segment']['data']['stateVector']
@@ -130,6 +145,13 @@ def post_data():
 
 @app.route('/help', methods=['GET'])
 def help() -> str:
+    """
+    Arguments:
+        None
+    Returns:
+        help_msg (str): message containing information on all routes in app
+    """
+
     base = '/   Returns the entire data set \n\n'
     epochs = '/epochs  Returns list of all Epochs in the data set\n\n'
     epochs_spec = '/epochs?limit=int&offset=int Returns modified list of Epochs given query parameters\n\n'
@@ -141,5 +163,26 @@ def help() -> str:
     
     return base + epochs + epochs_spec + epoch + speed + h + delete_data + post
 
+def get_config() -> dict:
+    """
+    Aruguments:
+        None
+    Returns:
+        config (dict): debug parameter
+    """
+
+    default_config = {"debug": False}
+    try:
+        with open('config.yaml', 'r') as f:
+            return yaml.safe_load(f)
+    except Exception as e:
+        print(f"Couldn't load the config file; details: {e}")
+    # if we couldn't load the config file, return the default config
+    return default_config
+
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    config = get_config()
+    if config.get('debug', True):
+        app.run(debug=True, host='0.0.0.0')
+    else:
+        app.run(host='0.0.0.0')
