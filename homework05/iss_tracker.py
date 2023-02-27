@@ -37,9 +37,6 @@ def data_set() -> List[dict]:
 
 @app.route('/epochs', methods=['GET'])
 def list_of_all_epochs() -> dict:
-    offset = int(request.args.get('offset', 0))
-    limit = int(request.args.get('limit', len(data)))
-
     """
     This function lists all of the epochs provided in the data pulled from NASA.
 
@@ -48,6 +45,26 @@ def list_of_all_epochs() -> dict:
     Returns:
         epochs (dict): dict of all epochs in the data set and their indicies, epochs in J2000 format.
     """
+
+    try:
+        len(data)
+    except TypeError:
+        return 'Empty data; repost data using \'curl -X POST localhost:5000/post-data\'\n', 400
+
+    offset = request.args.get('offset', 0)
+    limit = request.args.get('limit', len(data))
+
+    if offset:
+        try:
+            offset = int(offset)
+        except ValueError:
+            return 'Invalid offset parameter; offset must be an integer.\n', 400
+    if limit:
+        try:
+            limit = int(limit)
+        except ValueError:
+            return 'Invalid limit parameter; limit must be an integer.\n', 400
+        
     epochs = {}
     for i in range(limit):
         epochs[data[i+offset]['EPOCH']] = i+offset
@@ -63,6 +80,11 @@ def state_vector(epoch:int) -> dict:
     Returns:
         state vector (dict): x, y, and z position vector of the ISS in km.
     """
+    try:
+        len(data)
+    except TypeError:
+        return 'Empty data; repost data using \'curl -X POST localhost:5000/post-data\'\n', 400
+
     epoch_data = data[epoch]
     d = {}
     d['x'] = epoch_data['X']['#text']
@@ -80,6 +102,11 @@ def inst_speed(epoch:int) -> dict:
     Returns:
         state vector (dict): speed of the ISS in km/s.
     """
+    try:
+        len(data)
+    except TypeError:
+        return 'Empty data; repost data using \'curl -X POST localhost:5000/post-data\'\n', 400
+
     epoch_data = data[epoch]
     d = {}
     xdot = float(epoch_data['X_DOT']['#text'])
@@ -92,14 +119,14 @@ def inst_speed(epoch:int) -> dict:
 def delete_data():
     global data
     data = None
-    return 'Data deleted.\n\n'
+    return 'Data deleted.\n'
 
 @app.route('/post-data', methods=['POST'])
 def post_data():
     global data
     temp = iss_data()
     data = temp['ndm']['oem']['body']['segment']['data']['stateVector']
-    return 'Data reloaded.\n\n'
+    return 'Data reloaded.\n'
 
 @app.route('/help', methods=['GET'])
 def help() -> str:
