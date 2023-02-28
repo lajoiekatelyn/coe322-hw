@@ -72,10 +72,15 @@ $ curl localhost:5000/help
 ```
 
 ### Post Data
-To post the data set to the app and recieve a `Data loaded.` message:
+To post the data set to the app and recieve a `Data reloaded.` message:
 ```
 curl -X POST localhost:5000/post-data
 ```
+or
+```
+curl localhost:5000/
+```
+either of these commands MUST be run before any other routes in the app can work.
 
 ### Delete Data
 To delete all of the data on the app and recieve a `Data deleted.` message:
