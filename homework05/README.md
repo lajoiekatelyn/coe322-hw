@@ -46,13 +46,42 @@ To run the app with debug mode OFF and to map the Docker port to a port on your 
 docker run -it --rm -p 5000:5000 lajoiekatelyn/iss_tracker:hw05
 ```
 
-
 ## Usage
-To launch the app, please navigate to the root of the homework04 folder. Then, enter the following into the terminal:
+To launch the app, please navigate to the root of the homework05 folder. Then, enter the following into the terminal to run the app locally in debug mode
 ```
 $ flask --app iss_tracker run
 ```
-Then, open a new terminal and query the app.
+or in a container with debug mode off (AFTER following the Docker instructions above):
+```
+docker run -it --rm -p 5000:5000 lajoiekatelyn/iss_tracker:hw05
+```
+Then, open a new terminal on the same local machine and query the app.
+
+### Help
+To return a help text that describes each route in the app,
+```
+$ curl localhost:5000/help
+[/]   Returns the entire data set
+[/epochs]  Returns list of all Epochs in the data set
+[/epochs?limit=int&offset=int] Returns modified list of Epochs given query parameters
+[/epochs/<int:epoch>]    Returns state vectors for a specific Epoch from the data set
+[/epochs/<int:epoch>/speed]  Returns instantaneous speed for a specific Epoch in the data set
+[/help]  Returns help text that describes each route
+[/delete-data] Deletes all data from the dicitonary object
+[/post-data]  Reloads the dictionary object with data from the web
+```
+
+### Post Data
+To post the data set to the app and recieve a `Data loaded.` message:
+```
+curl -X POST localhost:5000/post-data
+```
+
+### Delete Data
+To delete all of the data on the app and recieve a `Data deleted.` message:
+```
+curl -X DELETE localhost:5000/data-delete
+```
 
 ### Raw Data
 To query all of the raw data (with the headers, comments, and metadata removed):
@@ -108,6 +137,18 @@ $ curl localhost:5000/epochs
   "2023-046T12:40:00.000Z": 10,
   ...
 ```
+A limited number of epochs and/or an offset set of Epochs can be queries as well. For example,
+```
+$ curl 'localhost:5000/epochs?limit5&offset=5'
+{
+  "2023-046T12:20:00.000Z": 5,
+  "2023-046T12:24:00.000Z": 6,
+  "2023-046T12:28:00.000Z": 7,
+  "2023-046T12:32:00.000Z": 8,
+  "2023-046T12:36:00.000Z": 9
+}
+```
+
 ### Position Vector
 ```
 $ localhost:5000/epoch/0
