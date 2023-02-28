@@ -29,18 +29,18 @@ speed = \sqrt{\dot{x}^2+\dot{y}^2+\dot{z}^2}
 ### Docker
 To ensure functionality of this program, a Docker image is utilized. To pull the associated docker image, run
 
-Pull the Docker Image
+#### Pull the Docker Image
 ```
 docker pull lajoiekatelyn/iss_tracker:hw05
 ```
 
-Build the Docker Image
+#### Build the Docker Image
 Run the following command in the git repo homework05 directory once you pull it to build the container.
 ```
 docker build -t lajoiekatelyn/iss_tracker:hw05 .
 ```
 
-Run the Docker Image
+#### Run the Docker Image
 To run the app with debug mode OFF and to map the Docker port to a port on your local machine, run
 ```
 docker run -it --rm -p 5000:5000 lajoiekatelyn/iss_tracker:hw05
