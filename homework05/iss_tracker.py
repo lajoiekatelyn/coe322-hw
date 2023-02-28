@@ -34,7 +34,7 @@ def data_set() -> List[dict]:
     global data
     temp = iss_data()
     data = temp['ndm']['oem']['body']['segment']['data']['stateVector']
-    return iss_data() 
+    return data 
 
 @app.route('/epochs', methods=['GET'])
 def list_of_all_epochs() -> dict:
@@ -152,14 +152,14 @@ def help() -> str:
         help_msg (str): message containing information on all routes in app
     """
 
-    base = '[/]   Returns the entire data set \n\n'
-    epochs = '[/epochs]  Returns list of all Epochs in the data set\n\n'
-    epochs_spec = '[/epochs?limit=int&offset=int] Returns modified list of Epochs given query parameters\n\n'
-    epoch = '[/epochs/<int:epoch>]    Returns state vectors for a specific Epoch from the data set\n\n'
-    speed = '[/epochs/<int:epoch>/speed]  Returns instantaneous speed for a specific Epoch in the data set\n\n'
-    h = '[/help]  Returns help text that describes each route\n\n'
-    delete_data = '[/delete-data] Deletes all data from the dicitonary object\n\n'
-    post = '[/post-data]  Reloads the dictionary object with data from the web\n\n'
+    base = '[/]   Returns the entire data set \n'
+    epochs = '[/epochs]  Returns list of all Epochs in the data set\n'
+    epochs_spec = '[/epochs?limit=int&offset=int] Returns modified list of Epochs given query parameters\n'
+    epoch = '[/epochs/<int:epoch>]    Returns state vectors for a specific Epoch from the data set\n'
+    speed = '[/epochs/<int:epoch>/speed]  Returns instantaneous speed for a specific Epoch in the data set\n'
+    h = '[/help]  Returns help text that describes each route\n'
+    delete_data = '[/delete-data] Deletes all data from the dicitonary object\n'
+    post = '[/post-data]  Reloads the dictionary object with data from the web\n'
     
     return base + epochs + epochs_spec + epoch + speed + h + delete_data + post
 
