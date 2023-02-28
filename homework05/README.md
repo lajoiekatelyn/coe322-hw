@@ -18,6 +18,26 @@ $ pip3 install --user requests
 ```
 The data can also be accessed in text format (`.txt`). Both file formats contain headers, comments, metadata, and data. The important information for this app is the data, which is in the form of a state vector consisting of position (km) and velocity (km/s).
 
+### Docker
+To ensure functionality of this program, a Docker image is utilized. To pull the associated docker image, run
+
+## Pull the Docker Image
+```
+docker pull lajoiekatelyn/iss_tracker:hw05
+```
+
+## Build the Docker Image
+Run the following command in the git repo homework05 directory once you pull it to build the container.
+```
+docker build -t lajoiekatelyn/iss_tracker:hw05 .
+```
+
+## Run the Docker Image
+To run the app with debug mode OFF and to map the Docker port to a port on your local machine, run
+```
+docker run -it --rm -p 5000:5000 lajoiekatelyn/iss_tracker:hw05
+```
+
 ### iss_tracker.py
 This script contains the application and its queries. It pulls the ISS data from the internet and allows the user to query the entire data set, a list of epochs, position at a specific epoch, and instantaneous speed at a specific epoch.
 
