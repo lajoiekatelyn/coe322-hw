@@ -6,7 +6,7 @@ import json
 app = Flask(__name__)
 
 def get_redis_client():
-    return redis.Redis(host='127.0.0.1', port=6379, db=0, decode_responses=True)
+    return redis.Redis(host='redis-db', port=6379, db=0, decode_responses=True)
 
 rd = get_redis_client()
 
@@ -36,7 +36,7 @@ def get_route():
             rd.hset(key, mapping=item)
         return f'Data loaded, there are {len(rd.keys())} keys in the db.\n'
     elif request.method == 'DELETE':
-        redis.flushdb()
+        rd.flushdb()
         return f'Data deleted, there are {len(rd.keys())} keys in the db.\n'
     else:
         return 'The method you requested does not apply.\n', 400
