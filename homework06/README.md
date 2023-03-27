@@ -14,6 +14,11 @@ $ pip3 install --user flask
 ```
 
 ### Redis
+This script uses the Redis, a NoSQL database, to store all app data to ensure that it is not lost when the Flask app stops running and allow for multiple processes to access the data at once. If the Redis Python library is not already installed on your machine and you plan on doing development with this repo, please install it using
+```
+pip3 install redis
+```
+otherwise, Docker will take care of the Redis image for this application.
 
 ### Required Data
 Data required for this app is the [Current JSON format hgnc_complete set file](https://ftp.ebi.ac.uk/pub/databases/genenames/hgnc/json/hgnc_complete_set.json) from [genenames.org](https://www.genenames.org/).  , which is accessed using the Python `requests` library. If requests is not installed on your machine, please install it using the following command in your terminal:
