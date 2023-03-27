@@ -29,12 +29,32 @@ $ pip3 install --user requests
 The data can also be accessed in text format (`.txt`). Both file formats contain headers and responses. The important information for this app is the response key, which is in the form of a list of dictionaries containing HGNC approved information on genes.
 
 ## Docker
+To ensure functionality across macnines, this app is containerized according to the included DockerFile and launched according to the included docker-copose.yml file. To run the app as an end user, please refer to the Pull the Docker Image and docker-compose sections below. To develop using the app in this repo, please refer to the DockerFile section below.
 
-### Pull the Docker Image
+### Pull and Build the Docker Image
+As an end user, running the app has three simple steps. The first two are to pull the image from the Docker Hub and then build the image. To do so, please run the following command
+```
+$ docker pull lajoiekatelyn/gene_flask_app:1.0 [DOUBLE CHECK THIS]
+```
+and then, in the root of the repo,
+```
+$ docker build -t lajoiekately/gene_flask_app:1.0 .
+```
+Then the image should be good to go.
 
 ### docker-compose
+To launch the app alongside Redis, please run the following command in the root of the directory
+```
+$ docker-compose up -d
+```
+to run the app and Redis in the background. Then, to terminate the app and Redis,
+```
+$ docker-compose down
+```
 
 ### DockerFile
+
+#### docker-compose for Developers
 
 ## Usage
 
