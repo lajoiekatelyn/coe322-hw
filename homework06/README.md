@@ -53,8 +53,14 @@ $ docker-compose down
 ```
 
 ### DockerFile
+To build upon this repo, any new package used in the main script will need to be added to the DockerFile. Then, the docker image will need to be rebuilt. To do so,
+```
+$ docker build -t <docker_username>:gene_flask_app:<version_number>
+```
+where `<docker_username>` is your Docker username and `<version_number>` is the verion of the image that you wish to build.
 
 #### docker-compose for Developers
+If you develop and push a new Docker image to Docker Hub, you will need to change the name of the Docker image in docker-compose.yml to the name of the image that you pushed.
 
 ## Usage
 
