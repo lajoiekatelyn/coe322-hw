@@ -6,6 +6,14 @@ import json
 app = Flask(__name__)
 
 def get_redis_client():
+    """
+    This function creates a connection to a Redis database
+    
+    Arguments
+        None
+    Returns
+        redis_database (redis.client.Redis): Redis client
+    """
     return redis.Redis(host='redis-db', port=6379, db=0, decode_responses=True)
 
 rd = get_redis_client()
