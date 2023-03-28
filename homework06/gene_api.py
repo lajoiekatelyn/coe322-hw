@@ -6,7 +6,7 @@ import json
 app = Flask(__name__)
 
 def get_redis_client():
-    return redis.Redis(host='redis-db', port=6379, db=0, decode_responses=True)
+    return redis.Redis(host='127.0.0.1', port=6379, db=0, decode_responses=True)
 
 rd = get_redis_client()
 
@@ -17,23 +17,14 @@ def get_route():
     if request.method == 'GET':
         output_list = []
         for item in rd.keys():
-            output_list.append(rd.hgetall(item))
+            output_list.append(json.loads(rd.get(item)))
         return output_list
     elif request.method == 'POST':
         response = requests.get('https://ftp.ebi.ac.uk/pub/databases/genenames/hgnc/json/hgnc_complete_set.json')
-        # with open('hgnc_complete_set.json', 'r') as f:
-            # response = json.load(f)
         for item in response.json()['response']['docs']:
-        # for item in response['response']['docs']:
             key = f'{item["hgnc_id"]}'
-            for sub_item in item:
-                if type(item[sub_item]) == list:
-                    temp = ''
-                    for element in item[sub_item]:
-                        temp += str(element) + '|'
-                    item[sub_item] = temp[:-1]
-            # print(key, '\n', type(item))
-            rd.hset(key, mapping=item)
+            item = json.dumps(item)            
+            rd.set(key, item)
         return f'Data loaded, there are {len(rd.keys())} keys in the db.\n'
     elif request.method == 'DELETE':
         rd.flushdb()
@@ -48,8 +39,13 @@ def get_genes() -> list:
 @app.route('/genes/<string:hgnc_id>', methods=['GET'])
 def get_hgnc_id(hgnc_id:str) -> dict:
     """
+    
     """
-    return rd.hgetall(hgnc_id)    
+    if rd.get(hgnc_id) == None:
+        return f'{hgnc_id} is not a gene in the dataset. Please try another.\n', 400
+
+    ret = json.loads(rd.get(hgnc_id))
+    return ret
 
 if __name__ == '__main__':
         app.run(debug=True, host='0.0.0.0')
