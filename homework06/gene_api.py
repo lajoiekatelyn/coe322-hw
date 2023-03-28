@@ -6,13 +6,19 @@ import json
 app = Flask(__name__)
 
 def get_redis_client():
-    return redis.Redis(host='127.0.0.1', port=6379, db=0, decode_responses=True)
+    return redis.Redis(host='redis-db', port=6379, db=0, decode_responses=True)
 
 rd = get_redis_client()
 
 @app.route('/data', methods=['GET', 'POST', 'DELETE'])
 def get_route():
     """
+    This function either posts, outputs, or deletes all data in the Redis database.
+
+    Arguments
+        None
+    Returns
+        None
     """
     if request.method == 'GET':
         output_list = []
@@ -34,12 +40,26 @@ def get_route():
 
 @app.route('/genes', methods=['GET'])
 def get_genes() -> list:
+    """
+    This function returns all of the keys in the Redis database.
+
+    Arguments
+        None
+    Returns
+        keys (list): unordered list of all keys in the database
+    """
+
     return rd.keys()
 
 @app.route('/genes/<string:hgnc_id>', methods=['GET'])
 def get_hgnc_id(hgnc_id:str) -> dict:
     """
-    
+    This function retrieves a specific gene from the database.
+
+    Arguments
+        hgnc_id (str):  HGNC ID of the gene, EX. HGNC:35458
+    Returns
+        gene_info (dict): all HGNC approved information on the requested gene
     """
     if rd.get(hgnc_id) == None:
         return f'{hgnc_id} is not a gene in the dataset. Please try another.\n', 400
