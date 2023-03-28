@@ -62,6 +62,8 @@ where `<docker_username>` is your Docker username and `<version_number>` is the 
 #### docker-compose for Developers
 If you develop and push a new Docker image to Docker Hub, you will need to change the name of the Docker image in docker-compose.yml to the name of the image that you pushed.
 
+NOTE: for the purpose of using docker-compose, the host declared for the Redis client in the get_redis_client() funciton in gene_api.py is set to `redis-db`. In order to develop using Flask, change the host to `127.0.0.1`. Then, when it comes time to use docker-compose again, change it back to `redis-db`.
+
 ## Usage
 
 | Command | Method | Description |
@@ -84,7 +86,38 @@ Data loaded, there are 43625 keys in the db.
 ```
 
 #### GET
-`$ curl localhost:5000/data`
+```
+$ curl localhost:5000/data
+[
+  {
+    "_version_": 1761544709796265984,
+    "agr": "HGNC:41931",
+    "date_approved_reserved": "2011-05-19",
+    "date_modified": "2019-02-14",
+    "date_name_changed": "2019-02-14",
+    "ensembl_gene_id": "ENSG00000250359",
+    "entrez_id": "100129564",
+    "hgnc_id": "HGNC:41931",
+    "location": "5q14.3",
+    "location_sortable": "05q14.3",
+    "locus_group": "pseudogene",
+    "locus_type": "pseudogene",
+    "name": "PTP4A1 pseudogene 4",
+    "prev_name": [
+      "protein tyrosine phosphatase type IVA, member 1 pseudogene 4"
+    ],
+    "pseudogene.org": "PGOHUM00000235686",
+    "refseq_accession": [
+      "NG_029015"
+    ],
+    "status": "Approved",
+    "symbol": "PTP4A1P4",
+    "uuid": "c8ea2431-d082-4180-8240-c21f8ed78ee5",
+    "vega_id": "OTTHUMG00000162586"
+  }, 
+  ...
+]
+```
 
 #### DELETE
 ```
@@ -96,12 +129,59 @@ Data deleted, there are 0 keys in the db.
 The `/genes` route outputs a list of all the HGNC genes loaded into the Redis database. Each gene output corresponts to a key in the database hash.
 ```
 $ curl localhost:5000/genes
-[SOME OUTPUT]
+[
+  "HGNC:47340",
+  "HGNC:52615",
+  "HGNC:40425",
+  "HGNC:25072",
+  "HGNC:7115",
+  "HGNC:46408",
+  "HGNC:4413",
+  "HGNC:15519",
+  "HGNC:51874",
+  "HGNC:42050",
+  "HGNC:12738",
+  "HGNC:39491",
+  "HGNC:31541",
+  "HGNC:28286",
+  "HGNC:9987",
+  "HGNC:46681",
+  "HGNC:52504",
+  "HGNC:37246",
+  "HGNC:35886",
+  "HGNC:31548",
+  ...
+]
 ```
 
 ### Genes HGNC ID Route
 The `/genes<hgnc_id>` route provides all information stored in the Redis key corresponding to the <hgnc_id> input in the curl query.
 ```
-$ curl localhost:5000/<hgnc_id>
-[SOME OUTPUT]
+$ curl localhost:5000/HGNC:41931
+{
+  "_version_": 1761544709796265984,
+  "agr": "HGNC:41931",
+  "date_approved_reserved": "2011-05-19",
+  "date_modified": "2019-02-14",
+  "date_name_changed": "2019-02-14",
+  "ensembl_gene_id": "ENSG00000250359",
+  "entrez_id": "100129564",
+  "hgnc_id": "HGNC:41931",
+  "location": "5q14.3",
+  "location_sortable": "05q14.3",
+  "locus_group": "pseudogene",
+  "locus_type": "pseudogene",
+  "name": "PTP4A1 pseudogene 4",
+  "prev_name": [
+    "protein tyrosine phosphatase type IVA, member 1 pseudogene 4"
+  ],
+  "pseudogene.org": "PGOHUM00000235686",
+  "refseq_accession": [
+    "NG_029015"
+  ],
+  "status": "Approved",
+  "symbol": "PTP4A1P4",
+  "uuid": "c8ea2431-d082-4180-8240-c21f8ed78ee5",
+  "vega_id": "OTTHUMG00000162586"
+}
 ```
