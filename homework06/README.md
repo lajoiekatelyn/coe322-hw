@@ -4,7 +4,7 @@
 Every gene is unique, and therefore it is important to identify them as so, giving each gene it's own name and symbol. The app and database utilizes public information on HGNC approved genes and their symbols from [genenames.org](https://www.genenames.org/) to ensure that information about each HGNC recognized gene is readily accessible for those who need or are interested in this information.
 
 ## gene_api.py
-This script contains the applicaiton and its queries. It stores and access information concerning HGNC approved genes in the Redis database. In the following subsections, the script requirements (Flask, Redis, and data from the internet) are addressed.
+This script contains the application and its queries. It stores and access information concerning HGNC approved genes in the Redis database. In the following subsections, the script requirements (Flask, Redis, and data from the internet) are addressed.
 
 ### Flask
 This program uses the Python Flask library. Flask is a web framework used to develop generalized web applications. To install Flask, please enter the following command into your terminal:
