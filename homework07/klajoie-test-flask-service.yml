@@ -6,10 +6,10 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    app: klajoie-test-flask
+    app: klajoie-test-app
     username: klajoie
     env: test
   ports:
-  - name: klajoie-test-app
+  - name: klajoie-test-flask
     port: 5000
     targetPort: 5000
