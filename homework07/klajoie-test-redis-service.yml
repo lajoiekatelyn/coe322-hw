@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: klajoie-test-redis-service
+  labels:
+    username: klajoie
+    env: test
+spec:
+  type: ClusterIP
+  selector:
+    app: klajoie-test-app
+    username: klajoie
+    env: test
+  ports:
+  - name: klajoie-test-redis
+    port: 6379
+    targetPort: 6379
