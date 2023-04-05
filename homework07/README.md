@@ -1,4 +1,4 @@
-# Homework 06: Flask App for HGNC Approved Genes and Symbols Using Redis Database
+# Homework 07: Flask App for HGNC Approved Genes and Symbols Using Redis Database on Kubernetes
 
 ## Description
 Every gene is unique, and therefore it is important to identify them as so, giving each gene it's own name and symbol. The app and database utilizes public information on HGNC approved genes and their symbols from [genenames.org](https://www.genenames.org/) to ensure that information about each HGNC recognized gene is readily accessible for those who need or are interested in this information.
@@ -63,6 +63,12 @@ where `<docker_username>` is your Docker username and `<version_number>` is the 
 If you develop and push a new Docker image to Docker Hub, you will need to change the name of the Docker image in docker-compose.yml to the name of the image that you pushed.
 
 NOTE: for the purpose of using docker-compose, the host declared for the Redis client in the get_redis_client() funciton in gene_api.py is set to `redis-db`. In order to develop using Flask, change the host to `127.0.0.1`. Then, when it comes time to use docker-compose again, change it back to `redis-db`.
+
+## Kubernetes
+
+### Deployment
+
+### Kubernetes Usage
 
 ## Usage
 
