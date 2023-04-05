@@ -22,7 +22,7 @@ spec:
         env: test
     spec:
       containers:
-        - name: test-redis
+        - name: klajoie-test-redis
           image: redis:7
           volumeMounts:
           - name: klajoie-test-pvc

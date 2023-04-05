@@ -13,6 +13,6 @@ spec:
     username: klajoie
     env: test
   ports:
-  - name: klajoie-test-redis
+  - name: klajoie-test-app
     port: 6379
     targetPort: 6379

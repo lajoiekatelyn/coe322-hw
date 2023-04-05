@@ -7,7 +7,9 @@ spec:
   type: ClusterIP
   selector:
     app: klajoie-test-app
+    username: klajoie
+    env: test
   ports:
-  - name: klajoie-test-flask
+  - name: klajoie-test-app
     port: 5000
     targetPort: 5000
