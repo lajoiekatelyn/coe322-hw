@@ -34,7 +34,7 @@ To ensure functionality across macnines, this app is containerized according to 
 ### Pull and Build the Docker Image
 As an end user, running the app has three simple steps. The first two are to pull the image from the Docker Hub and then build the image. To do so, please run the following command
 ```
-$ docker pull lajoiekatelyn/gene_flask_app:1.0 [DOUBLE CHECK THIS]
+$ docker pull lajoiekatelyn/gene_flask_app:1.0
 ```
 and then, in the root of the repo,
 ```
@@ -65,10 +65,72 @@ If you develop and push a new Docker image to Docker Hub, you will need to chang
 NOTE: for the purpose of using docker-compose, the host declared for the Redis client in the get_redis_client() funciton in gene_api.py is set to `redis-db`. In order to develop using Flask, change the host to `127.0.0.1`. Then, when it comes time to use docker-compose again, change it back to `redis-db`.
 
 ## Kubernetes
+To run this app on a Kubernetes cluster, please follow the instructions below.
 
 ### Deployment
+Each yaml file in this repo, save for `docker-compose.yml`, is a file that needs to be applied to Kubernetes. To do so, enter the following commands in the console from which you have Kubernetes access:
+```
+$ kubectl apply -f klajoie-test-app-deployment.yml
+$ kubectl apply -f klajoie-test-pvc.yml
+$ kubectl apply -f klajoie-test-redis-service.yml
+$ kubectl apply -f klajoie-test-flask-service.yml
+$ kubectl apply -f klajoie-test-python-debug.yml
+```
+The console should output confirmation that you properly applied each deployment, persistent volume control, service, etc after each `kube apply -f` command and then you should be good to go using Kubernetes!
 
 ### Kubernetes Usage
+To use the cluster, first run the following comand
+```
+$ kubectl get pods
+klajoie-test-app-deployment-57648c5759-2vtsl     1/1     Running   0                3h51m
+klajoie-test-app-deployment-57648c5759-hxpcz     1/1     Running   0                3h51m
+klajoie-test-redis-deployment-69f6c7c8c6-cpszc   1/1     Running   0                3h51m
+py-debug-deployment-f484b4b99-r9vff              1/1     Running   0                4h28m
+```
+
+Note the python debug deployment and use it to access the cluster:
+```
+$ kubectl exec -it py-debug-deployment-f484b4b99-r9vff -- /bin/bash
+```
+
+You will end up in a terminal something like:
+```
+root@py-debug-deployment-f484b4b99-r9vff:/#
+```
+
+where you can use any of the commands below, under Usage, replacing `localhost` with `klajoie-test-flask-service`. For example,
+```
+$ curl klajoie-test-flask-service:5000/data
+[
+  {
+    "_version_": 1761544709796265984,
+    "agr": "HGNC:41931",
+    "date_approved_reserved": "2011-05-19",
+    "date_modified": "2019-02-14",
+    "date_name_changed": "2019-02-14",
+    "ensembl_gene_id": "ENSG00000250359",
+    "entrez_id": "100129564",
+    "hgnc_id": "HGNC:41931",
+    "location": "5q14.3",
+    "location_sortable": "05q14.3",
+    "locus_group": "pseudogene",
+    "locus_type": "pseudogene",
+    "name": "PTP4A1 pseudogene 4",
+    "prev_name": [
+      "protein tyrosine phosphatase type IVA, member 1 pseudogene 4"
+    ],
+    "pseudogene.org": "PGOHUM00000235686",
+    "refseq_accession": [
+      "NG_029015"
+    ],
+    "status": "Approved",
+    "symbol": "PTP4A1P4",
+    "uuid": "c8ea2431-d082-4180-8240-c21f8ed78ee5",
+    "vega_id": "OTTHUMG00000162586"
+  }, 
+  ...
+]
+```
 
 ## Usage
 
