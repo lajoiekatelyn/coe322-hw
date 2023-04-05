@@ -48,7 +48,7 @@ spec:
       containers:
         - name: klajoie-test-flask
           imagePullPolicy: Always
-          image: lajoiekatelyn/gene_flask_app:1.0
+          image: lajoiekatelyn/gene_flask_app:kube
           env:
           - name: FLASK_APP
             value: "gene_api.py"
