@@ -1,6 +1,6 @@
 from flask import Flask, request
 import redis
-import requests
+mport requests
 import json
 
 app = Flask(__name__)
