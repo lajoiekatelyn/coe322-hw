@@ -8,6 +8,6 @@ spec:
   selector:
     app: klajoie-test-app
   ports:
-  - name: klajoie-test-flaskx
+  - name: klajoie-test-flask
     port: 5000
     targetPort: 5000
