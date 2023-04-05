@@ -6,7 +6,7 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    app: klajoie-test-app
+    app: klajoie-test-flask
     username: klajoie
     env: test
   ports:

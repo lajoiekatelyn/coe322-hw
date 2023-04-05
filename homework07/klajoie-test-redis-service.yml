@@ -9,7 +9,7 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    app: klajoie-test-app
+    app: klajoie-test-redis
     username: klajoie
     env: test
   ports:
