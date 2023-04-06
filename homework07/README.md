@@ -70,8 +70,9 @@ To run this app on a Kubernetes cluster, please follow the instructions below.
 ### Deployment
 Each yaml file in this repo, save for `docker-compose.yml`, is a file that needs to be applied to Kubernetes. To do so, enter the following commands in the console from which you have Kubernetes access:
 ```
-$ kubectl apply -f klajoie-test-app-deployment.yml
+$ kubectl apply -f klajoie-test-redis-deployment.yml
 $ kubectl apply -f klajoie-test-pvc.yml
+$ kubectl apply -f klajoie-test-flask-deployment.yml
 $ kubectl apply -f klajoie-test-redis-service.yml
 $ kubectl apply -f klajoie-test-flask-service.yml
 $ kubectl apply -f klajoie-test-python-debug.yml
@@ -82,10 +83,10 @@ The console should output confirmation that you properly applied each deployment
 To use the cluster, first run the following comand
 ```
 $ kubectl get pods
-klajoie-test-app-deployment-57648c5759-2vtsl     1/1     Running   0                3h51m
-klajoie-test-app-deployment-57648c5759-hxpcz     1/1     Running   0                3h51m
-klajoie-test-redis-deployment-69f6c7c8c6-cpszc   1/1     Running   0                3h51m
-py-debug-deployment-f484b4b99-r9vff              1/1     Running   0                4h28m
+klajoie-test-flask-deployment-57648c5759-t9x5t   1/1     Running   0               102m
+klajoie-test-flask-deployment-57648c5759-vjzl7   1/1     Running   0               102m
+klajoie-test-redis-deployment-654c66bcb6-smzjm   1/1     Running   0               104m
+py-debug-deployment-f484b4b99-r9vff              1/1     Running   0               8h
 ```
 
 Note the python debug deployment and use it to access the cluster:
