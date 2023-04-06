@@ -32,7 +32,7 @@ The data can also be accessed in text format (`.txt`). Both file formats contain
 To ensure functionality across macnines, this app is containerized according to the included DockerFile and launched according to the included docker-copose.yml file. To run the app as an end user, please refer to the Pull the Docker Image and docker-compose sections below. To develop using the app in this repo, please refer to the DockerFile section below.
 
 ### Pull and Build the Docker Image
-As an end user, running the app has three simple steps. The first two are to pull the image from the Docker Hub and then build the image. To do so, please run the following command
+As an end user, running the app has four simple steps. First, change the Redis database client host in the `gene_api.py` script from `klajoie-test-redis-service` to `redis-db`. Then, pull the image from the Docker Hub and then build the image. To do so, please run the following command
 ```
 $ docker pull lajoiekatelyn/gene_flask_app:1.0
 ```
@@ -78,6 +78,7 @@ $ kubectl apply -f klajoie-test-flask-service.yml
 $ kubectl apply -f klajoie-test-python-debug.yml
 ```
 The console should output confirmation that you properly applied each deployment, persistent volume control, service, etc after each `kube apply -f` command and then you should be good to go using Kubernetes!
+NOTE: if users wish to user their own Flask API in the kubernetes cluster, they must change the image being pulled in `klajoie-test-flask-deployment` to their image on Docker Hub and then re-apply the kubernetes depolyment.
 
 ### Kubernetes Usage
 To use the cluster, first run the following comand
