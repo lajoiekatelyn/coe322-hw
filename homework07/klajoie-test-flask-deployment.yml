@@ -4,20 +4,16 @@ kind: Deployment
 metadata:
   name: klajoie-test-flask-deployment
   labels:
-    app: klajoie-test-app
-    username: klajoie
-    env: test
+    app: klajoie-test-flask-app
 spec:
-  replicas: 2
+  replicas: 1 
   selector:
     matchLabels:
-      app: klajoie-test-app
-      username: klajoie
-      env: test
+      app: klajoie-test-flask-app
   template:
     metadata:
       labels:
-        app: klajoie-test-app
+        app: klajoie-test-flask-app
         username: klajoie
         env: test
     spec:
