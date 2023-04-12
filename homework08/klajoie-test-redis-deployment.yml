@@ -1,0 +1,33 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: klajoie-test-redis-deployment
+  labels:
+    app: klajoie-test-redis-app
+    username: klajoie
+    env: test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: klajoie-test-redis-app
+      username: klajoie
+      env: test
+  template:
+    metadata:
+      labels:
+        app: klajoie-test-redis-app
+        username: klajoie
+        env: test
+    spec:
+      containers:
+        - name: klajoie-test-redis
+          image: redis:7
+          volumeMounts:
+          - name: klajoie-test-pvc
+            mountPath: "/data"
+      volumes:
+      - name: klajoie-test-pvc
+        persistentVolumeClaim:
+          claimName: klajoie-test-pvc

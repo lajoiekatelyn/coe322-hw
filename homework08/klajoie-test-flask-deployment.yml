@@ -1,0 +1,29 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: klajoie-test-flask-deployment
+  labels:
+    app: klajoie-test-flask-app
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      app: klajoie-test-flask-app
+  template:
+    metadata:
+      labels:
+        app: klajoie-test-flask-app
+        username: klajoie
+        env: test
+    spec:
+      containers:
+        - name: klajoie-test-flask
+          imagePullPolicy: Always
+          image: lajoiekatelyn/gene_flask_app:kube
+          env:
+          - name: FLASK_APP
+            value: "gene_api.py"
+          ports:
+          - name: http
+            containerPort: 5000

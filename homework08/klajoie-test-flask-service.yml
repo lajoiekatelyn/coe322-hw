@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: klajoie-test-flask-service
+  labels:
+    username: klajoie
+    env: test
+spec:
+  type: ClusterIP
+  selector:
+    app: klajoie-test-flask-app
+  ports:
+  - name: klajoie-test-flask
+    port: 5000
+    targetPort: 5000
