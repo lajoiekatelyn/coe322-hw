@@ -1,7 +1,8 @@
 from flask import Flask, request
 import redis
-mport requests
+import requests
 import json
+import os
 
 app = Flask(__name__)
 
@@ -14,7 +15,12 @@ def get_redis_client():
     Returns
         redis_database (redis.client.Redis): Redis client
     """
-    return redis.Redis(host='klajoie-test-redis-service', port=6379, db=0, decode_responses=True)
+
+    redis_ip = os.environ.get('REDIS_IP')
+    if not redis_ip:
+        raise Exception()    
+
+    return redis.Redis(host=redis_ip, port=6379, db=0, decode_responses=True)
 
 rd = get_redis_client()
 

@@ -15,6 +15,8 @@ services:
             dockerfile: ./Dockerfile
         depends_on:
             - redis-db
+        environment:
+            - REDIS_IP=klajoie-test-redis-service
         image: lajoiekatelyn/gene_flask_app:1.0
         ports:
             - 5000:5000
