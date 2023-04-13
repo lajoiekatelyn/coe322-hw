@@ -1,12 +1,15 @@
-from flask import Flask, request
+from flask import Flask, request, send_file
 import redis
 import requests
 import json
 import os
+from matplotlib import pyplot as plt
+import numpy as np
 
 app = Flask(__name__)
 
-def get_redis_client():
+def get_redis_client(db_num:int, decode:bool):
+    
     """
     This function creates a connection to a Redis database
     
@@ -20,9 +23,10 @@ def get_redis_client():
     if not redis_ip:
         raise Exception()    
 
-    return redis.Redis(host=redis_ip, port=6379, db=0, decode_responses=True)
+    return redis.Redis(host=redis_ip, port=6379, db=db_num, decode_responses=decode)
 
-rd = get_redis_client()
+rd = get_redis_client(0, True)
+rd_img = get_redis_client(1, False)
 
 @app.route('/data', methods=['GET', 'POST', 'DELETE'])
 def get_route():
@@ -35,6 +39,8 @@ def get_route():
         None
     """
     if request.method == 'GET':
+        if len(rd.keys())==0:
+            return 'There is no data in the database.\n', 400
         output_list = []
         for item in rd.keys():
             output_list.append(json.loads(rd.get(item)))
@@ -50,7 +56,7 @@ def get_route():
         rd.flushdb()
         return f'Data deleted, there are {len(rd.keys())} keys in the db.\n'
     else:
-        return 'The method you requested does not apply.\n', 400
+        return 'The method requested does not apply.\n', 400
 
 @app.route('/genes', methods=['GET'])
 def get_genes() -> list:
@@ -62,6 +68,8 @@ def get_genes() -> list:
     Returns
         keys (list): unordered list of all keys in the database
     """
+    if len(rd.keys())==0:
+        return 'There is no data in the database.\n', 400
 
     return rd.keys()
 
@@ -81,5 +89,50 @@ def get_hgnc_id(hgnc_id:str) -> dict:
     ret = json.loads(rd.get(hgnc_id))
     return ret
 
+@app.route('/image', methods=['GET', 'POST', 'DELETE'])
+def get_image():
+    """
+    This route creates and deletes images on a Redis database. When there is data in the database, users can send it to themselves using the 'GET' route.
+
+    Arguments:
+        None
+    Returns:
+        image (png): pie chart of where genes are located.
+    """
+    if request.method == 'GET':
+        if rd_img.exists('image'):
+            path = './image.png'
+            with open(path, 'wb') as f:
+                f.write(rd_img.get('image'))
+            return send_file(path, mimetype='image/png', as_attachment=True)
+        else:
+            return 'There are no images in the database.\n', 400
+    elif request.method == 'POST':
+        if len(rd.keys())==0:
+            return 'There is no data in the database; image cannot be created.\n', 400
+        locus = {}
+        for item in rd.keys():
+            item = json.loads(rd.get(item))
+            if item['locus_group'] not in locus:
+                locus[item['locus_group']]=1
+            else:
+                locus[item['locus_group']]+=1
+        genes = []
+        data = []
+        for key in locus.keys():
+            genes.append(key)
+            data.append(locus[key])
+        plt.figure()
+        plt.pie(data, labels=genes)
+        plt.title('Loci of Genes in Dataset')
+        plt.savefig('./image.png')
+        filebytes = open('./image.png', 'rb').read()
+        rd_img.set('image', filebytes)
+        return 'Image written to image database.\n'
+    elif request.method == 'DELETE':
+        rd_img.flushdb()
+        return 'Image erased from database.\n'
+    else:
+        return 'The method requested does not apply.', 400
 if __name__ == '__main__':
         app.run(debug=True, host='0.0.0.0')
