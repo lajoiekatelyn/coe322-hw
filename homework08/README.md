@@ -62,7 +62,7 @@ where `<docker_username>` is your Docker username and `<version_number>` is the 
 #### docker-compose for Developers
 If you develop and push a new Docker image to Docker Hub, you will need to change the name of the Docker image in docker-compose.yml to the name of the image that you pushed.
 
-NOTE: for the purpose of using docker-compose, the host declared for the Redis client in the get_redis_client() funciton in gene_api.py is set to `redis-db`. In order to develop using Flask, change the host to `127.0.0.1`. Then, when it comes time to use docker-compose again, change it back to `redis-db`.
+NOTE: for the purpose of using docker-compose, the host declared for the Redis client in the get_redis_client() funciton in gene_api.py is set to `redis-ip`. In order to develop using Flask, change the host to `127.0.0.1`. Then, when it comes time to use docker-compose again, change it back to `redis-ip`  for correct use with Kubernetes. Additionally, if the service used to reach the Redis database in Kubernetes is changed, update the name of the service from `klajoie-test-redis-service` to the new name in both `docker-compose.yml` and `klajoie-test-flask-deployment.yml` for use with Kubernetes.
 
 ## Kubernetes
 To run this app on a Kubernetes cluster, please follow the instructions below.
