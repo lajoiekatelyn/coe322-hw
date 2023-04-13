@@ -1,4 +1,4 @@
-# Homework 07: Flask App for HGNC Approved Genes and Symbols Using Redis Database on Kubernetes
+# Homework 08: Flask App for HGNC Approved Genes and Symbols Using Redis Database on Kubernetes
 
 ## Description
 Every gene is unique, and therefore it is important to identify them as so, giving each gene it's own name and symbol. The app and database utilizes public information on HGNC approved genes and their symbols from [genenames.org](https://www.genenames.org/) to ensure that information about each HGNC recognized gene is readily accessible for those who need or are interested in this information.
@@ -143,6 +143,9 @@ $ curl klajoie-test-flask-service:5000/data
 | | DELETE | Flush all data from the Redis database. |
 | `/genes` | GET | Output a list of all genes in the Redis database to the console. |
 | `/genes/<hgnc_id>` | GET | Output specific gene from the database to the console. |
+| `/image` | GET | Returns image to user in current folder. |
+| | POST | Creates image from data in Redis database. |
+| | DELETE | Flush created image from Redis database. |
 
 ## Example Output
 
@@ -254,4 +257,29 @@ $ curl localhost:5000/HGNC:41931
   "uuid": "c8ea2431-d082-4180-8240-c21f8ed78ee5",
   "vega_id": "OTTHUMG00000162586"
 }
+```
+
+### Image Route
+
+#### POST
+To create a pie chart of all the gene loci in the HGNC database, provided that there is data loaded into the database:
+``` 
+$ curl klajoie-test-flask-service:5000/image -X POST
+Image written to image database.
+```
+#### GET
+To get the image created from the `POST` command above and transfer it from the Redis database to a user's current directory on their machine,
+``` 
+$ curl klajoie-test-flask-service:5000/image -output loci_piechart.png
+% Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 22745  100 22745    0     0  3701k      0 --:--:-- --:--:-- --:--:-- 3701k
+```
+The generated image should look something along the lines of
+![Gene loci pie chart.](https://github.com/lajoiekatelyn/coe322-hw/blob/main/homework08/loci_piechart.png)
+#### DELETE
+To flush the image from the database
+``` 
+$ curl klajoie-test-flask-service:5000/image -X DELETE
+Image erased from database.
 ```
