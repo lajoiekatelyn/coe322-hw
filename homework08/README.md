@@ -275,8 +275,6 @@ $ curl klajoie-test-flask-service:5000/image -output loci_piechart.png
                                  Dload  Upload   Total   Spent    Left  Speed
 100 22745  100 22745    0     0  3701k      0 --:--:-- --:--:-- --:--:-- 3701k
 ```
-The generated image should look something along the lines of
-![Gene loci pie chart.](https://github.com/lajoiekatelyn/coe322-hw/blob/main/homework08/loci_piechart.png)
 #### DELETE
 To flush the image from the database
 ``` 
